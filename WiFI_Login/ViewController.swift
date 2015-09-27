@@ -14,7 +14,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var userText: UITextField!
     @IBOutlet weak var passwdText: UITextField!
+    @IBOutlet weak var resultLabel: UILabel!
     
+    @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var usernameTextFieldTopCons: NSLayoutConstraint!
     
     func getPassword() {
@@ -75,6 +77,67 @@ class ViewController: UIViewController {
     
     @IBAction func login(sender: AnyObject) {
         print("login (\(userText.text!),\(passwdText.text!))")
+        dispatch_async(dispatch_get_main_queue()) {
+            self.resultLabel.text = "登录中，请稍候"
+        }
+        loginButton.enabled = false
+        var rst:String?
+        
+        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        var session = NSURLSession(configuration: configuration)
+        
+        
+//        --data "buttonClicked=4&err_flag=0&err_msg=&info_flag=0&info_msg=&redirect_url=&network_name=Guest+Network&username=guest&password=pidyM8T8"
+//        let params:[String: AnyObject] = [
+//            "email" : self.userText.text!,
+//            "userPwd" : self.passwdText.text!
+//        ]
+        let data = "buttonClicked=4&err_flag=0&err_msg=&info_flag=0&info_msg=&redirect_url=&network_name=Guest+Network&username=\(self.userText.text!)&password=\(self.passwdText.text!)"
+        
+        let url = NSURL(string:"https://webauth-redirect.oracle.com/login.html")
+//        let request = NSMutableURLRequest(URL: url!, cachePolicy: NSURLRequestReloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let request = NSMutableURLRequest(URL: url!)
+        request.timeoutInterval = 10
+        
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("https://webauth-redirect.oracle.com/login.html",forHTTPHeaderField: "Referer")
+        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
+        
+        request.HTTPMethod = "POST"
+        request.HTTPBody = data.dataUsingEncoding(NSUTF8StringEncoding)
+//        request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: NSJSONWritingOptions.allZeros, error: &err)
+
+        
+        let task = session.dataTaskWithRequest(request) {
+            data, response, error in
+            
+            if let httpResponse = response as? NSHTTPURLResponse {
+                if httpResponse.statusCode != 200 {
+                    rst = "response was not 200: \(response)"
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.resultLabel.text = rst
+                    }
+                    print(rst)
+                    self.loginButton.enabled = true
+                    return
+                }
+            }
+            if (error != nil) {
+                rst = "error submitting request: \(error)"
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.resultLabel.text = rst
+                }
+                print(rst)
+                self.loginButton.enabled = true
+                return
+            }
+            
+//            // handle the data of the successful response here
+//            var result = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? NSDictionary
+            print(data)
+            self.loginButton.enabled = true
+        }
+        task!.resume()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
