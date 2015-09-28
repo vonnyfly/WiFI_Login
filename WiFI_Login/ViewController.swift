@@ -8,7 +8,9 @@
 
 import UIKit
 import Foundation
+//import SafariServices
 
+//class ViewController: UIViewController, SFSafariViewControllerDelegate {
 class ViewController: UIViewController {
     var password:String = ""
     
@@ -112,33 +114,39 @@ class ViewController: UIViewController {
             data, response, error in
             
             if let httpResponse = response as? NSHTTPURLResponse {
-                if httpResponse.statusCode != 200 {
-                    rst = "response was not 200: \(response)"
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self.resultLabel.text = rst
-                    }
-                    print(rst)
-                    self.loginButton.enabled = true
-                    return
+                rst = "Login Success: \(response)"
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.resultLabel.text = rst
                 }
+                UIApplication.sharedApplication().openURL(NSURL(string:"http://baidu.com")!)
+//                let url = NSURL(string: "http://baidu.com")!
+//                let webViewController = SFSafariViewController(URL: url)
+//                webViewController.delegate = self
+//                self.presentViewController(webViewController, animated: true, completion: nil)
             }
+            
             if (error != nil) {
                 rst = "error submitting request: \(error)"
                 dispatch_async(dispatch_get_main_queue()) {
                     self.resultLabel.text = rst
                 }
                 print(rst)
-                self.loginButton.enabled = true
-                return
             }
-            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.loginButton.enabled = true
+            }
+
 //            // handle the data of the successful response here
 //            var result = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? NSDictionary
-            print(data)
-            self.loginButton.enabled = true
+
         }
         task!.resume()
     }
+    
+//    func safariViewControllerDidFinish(controller: SFSafariViewController) {
+//        controller.dismissViewControllerAnimated(true, completion: nil)
+//    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
