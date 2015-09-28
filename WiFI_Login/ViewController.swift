@@ -114,7 +114,8 @@ class ViewController: UIViewController {
             data, response, error in
             
             if let httpResponse = response as? NSHTTPURLResponse {
-                rst = "Login Success: \(response)"
+//                rst = "Login Success: \(response)"
+                rst = "登录成功"
                 dispatch_async(dispatch_get_main_queue()) {
                     self.resultLabel.text = rst
                 }
