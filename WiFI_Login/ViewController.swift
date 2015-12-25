@@ -29,13 +29,13 @@ class ViewController: UIViewController {
                 self.passwdText.text = NSString(data: data!, encoding: NSUTF8StringEncoding) as? String
             }
         }
-        task!.resume()
+        task.resume()
     }
     
 //    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: <#T##NSCoder#>)
+//        super.init(coder: aDecoder)!
 //    }
-//    
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -54,6 +54,7 @@ class ViewController: UIViewController {
             name: UIKeyboardWillHideNotification,
             object: nil)
         getPassword()
+        self.resultLabel.text = "1. 在手机网络下打开App（用于联网获取密码）;\n2.打开WIFI，连接clear-guest，点击登录."
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -141,7 +142,7 @@ class ViewController: UIViewController {
 //            var result = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: nil) as? NSDictionary
 
         }
-        task!.resume()
+        task.resume()
     }
     
 //    func safariViewControllerDidFinish(controller: SFSafariViewController) {
