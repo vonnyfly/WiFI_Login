@@ -8,12 +8,13 @@
 
 import UIKit
 import Foundation
+
 //import SafariServices
 
 //class ViewController: UIViewController, SFSafariViewControllerDelegate {
-class ViewController: UIViewController {
+class ViewController: UIViewController,PTPusherDelegate {
     var password:String = ""
-    
+    var pusher:PTPusher!
     @IBOutlet weak var userText: UITextField!
     @IBOutlet weak var passwdText: UITextField!
     @IBOutlet weak var resultLabel: UILabel!
@@ -32,6 +33,21 @@ class ViewController: UIViewController {
         task.resume()
     }
     
+    func setupPusher() {
+        self.pusher = PTPusher(key: "fd71859318927beeff9b", delegate: self)
+        var channel:PTPusherChannel = self.pusher.subscribeToChannelNamed("test_channel")
+        channel.bindToEventNamed("my_event") { (channelEvent) -> Void in
+            var msg = channelEvent.data.objectForKey("message")
+            print("\(msg)")
+        }
+        channel.bindToEventNamed("password") { (channelEvent) -> Void in
+            var msg = channelEvent.data.objectForKey("message") as! String
+            print("\(msg)")
+            dispatch_async(dispatch_get_main_queue()) {
+                self.passwdText.text = msg            }
+        }
+        self.pusher.connect()
+    }
 //    required init(coder aDecoder: NSCoder) {
 //        super.init(coder: aDecoder)!
 //    }
@@ -54,7 +70,8 @@ class ViewController: UIViewController {
             name: UIKeyboardWillHideNotification,
             object: nil)
         getPassword()
-        self.resultLabel.text = "1. 在手机网络下打开App（用于联网获取密码）;\n2.打开WIFI，连接clear-guest，点击登录."
+        self.resultLabel.text = "Tip:\n0. 默认不关闭app，会每天定时推送password，如有异常，关闭app再重新打开；\n1.打开WIFI，连接clear-guest，点击登录."
+        setupPusher()
     }
     
     func keyboardWillShow(notification: NSNotification) {

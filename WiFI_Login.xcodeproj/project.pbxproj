@@ -26,6 +26,7 @@
 		EF30D6C71BB7C15C00CDDFEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF30D6CA1BB7C15C00CDDFEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF30D6CC1BB7C15C00CDDFEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF99BF571C2E9FAD002DE593 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +70,7 @@
 		EF30D6BF1BB7C15C00CDDFEC /* WiFI_Login */ = {
 			isa = PBXGroup;
 			children = (
+				EF99BF561C2E9F92002DE593 /* Bridge */,
 				EF30D6C01BB7C15C00CDDFEC /* AppDelegate.swift */,
 				EF30D6C21BB7C15C00CDDFEC /* ViewController.swift */,
 				EF30D6C41BB7C15C00CDDFEC /* Main.storyboard */,
@@ -77,6 +79,14 @@
 				EF30D6CC1BB7C15C00CDDFEC /* Info.plist */,
 			);
 			path = WiFI_Login;
+			sourceTree = "<group>";
+		};
+		EF99BF561C2E9F92002DE593 /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				EF99BF571C2E9FAD002DE593 /* Bridge.h */,
+			);
+			name = Bridge;
 			sourceTree = "<group>";
 		};
 		F80CA21D2E82E46B3256D231 /* Pods */ = {
@@ -100,6 +110,7 @@
 				EF30D6BA1BB7C15C00CDDFEC /* Frameworks */,
 				EF30D6BB1BB7C15C00CDDFEC /* Resources */,
 				DAFDC9741B6D8471AE5979C1 /* Copy Pods Resources */,
+				1174488BEE8220B02712A427 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -156,6 +167,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1174488BEE8220B02712A427 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A8459092B99FC479E37AA05C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +340,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vonnyfly.WiFI-Login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = WiFI_Login/Bridge.h;
 			};
 			name = Debug;
 		};
@@ -328,6 +355,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vonnyfly.WiFI-Login";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = WiFI_Login/Bridge.h;
 			};
 			name = Release;
 		};

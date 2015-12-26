@@ -1,10 +1,18 @@
 PODS:
   - Firebase (2.4.1.1)
+  - libPusher (1.6.1):
+    - libPusher/Core (= 1.6.1)
+  - libPusher/Core (1.6.1):
+    - SocketRocket (= 0.4.1)
+  - SocketRocket (0.4.1)
 
 DEPENDENCIES:
   - Firebase
+  - libPusher
 
 SPEC CHECKSUMS:
   Firebase: 47f921f251c8982d147d90f2845816b21f016acc
+  libPusher: 5ea58aeb83fa4ac1f5d8ef8543b1def6ace997b8
+  SocketRocket: ee0b5c34182d37bb4f1f8d628bbe737718126daa
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0
